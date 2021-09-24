@@ -1,3 +1,5 @@
+import { CLIENT_URL } from "../utils";
+
 const twitterLogin = async () => {
   // const authWindow = window.open(
   //   "about:blank",
@@ -10,7 +12,7 @@ const twitterLogin = async () => {
   //   return;
   // }
 
-  const res = await fetch('/api/twitter/generate-auth-link');
+  const res = await fetch(`${CLIENT_URL}api/twitter/generate-auth-link`);
 	console.log({res})
   
 	// const authURL = res.data.redirect;

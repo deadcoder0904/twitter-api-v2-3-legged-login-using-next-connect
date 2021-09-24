@@ -39,16 +39,16 @@ function handler() {
         signed: IS_PRODUCTION && !process.env.INSECURE_AUTH,
       })
     )
-    .use(
-      ironSession({
-        cookieName: 'mysite-session',
-        password: SESSION_SECRET,
-        // if your localhost is served on http:// then disable the secure flag
-        cookieOptions: {
-          secure: IS_PRODUCTION,
-        },
-      })
-    )
+    // .use(
+    //   ironSession({
+    //     cookieName: 'mysite-session',
+    //     password: SESSION_SECRET,
+    //     // if your localhost is served on http:// then disable the secure flag
+    //     cookieOptions: {
+    //       secure: IS_PRODUCTION,
+    //     },
+    //   })
+    // )
 }
 
 export default handler

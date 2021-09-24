@@ -1,3 +1,4 @@
+import { withIronSession } from './../../../lib/withIronSession'
 import { NextApiResponse } from 'next'
 import TwitterApi from 'twitter-api-v2'
 
@@ -41,4 +42,4 @@ const getVerifierToken = async (
   res.redirect('/lol')
 }
 
-export default getVerifierToken
+export default withIronSession(getVerifierToken)

@@ -1,3 +1,4 @@
+import { withIronSession } from './../../../lib/withIronSession'
 import { NextApiResponse } from 'next'
 import TwitterApi from 'twitter-api-v2'
 
@@ -21,7 +22,7 @@ const generateAuthLink = async (
   const { url, oauth_token, oauth_token_secret } = await new TwitterApi({
     appKey: TWITTER_CONFIG.consumerKey,
     appSecret: TWITTER_CONFIG.consumerSecret,
-  }).generateAuthLink(SERVER_URL + '/api/twitter/get-verifier-token', {linkMode:'authorize'})
+  }).generateAuthLink(`${SERVER_URL}api/twitter/get-verifier-token`, {linkMode:'authorize'})
 
   console.log({url,oauth_token,oauth_token_secret})
   const reqWithSession = req as unknown as AppSession
@@ -37,4 +38,4 @@ const generateAuthLink = async (
   res.redirect(url)
 }
 
-export default generateAuthLink
+export default withIronSession(generateAuthLink)
