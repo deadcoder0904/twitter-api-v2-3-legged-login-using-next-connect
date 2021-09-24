@@ -8,6 +8,8 @@ const getVerifierToken = async (
   req: NextIronRequest,
   res: NextApiResponse
 ) => {
+  console.log('getVerifierToken')
+
   // check query params and session data
   const { oauth_token, oauth_verifier } = req.query
 
