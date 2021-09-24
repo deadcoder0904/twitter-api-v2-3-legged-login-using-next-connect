@@ -1,10 +1,10 @@
 import { NextApiResponse } from 'next'
 import TwitterApi from 'twitter-api-v2'
 
-import { TWITTER_CONFIG } from './config'
+import { TWITTER_CONFIG } from '../../../lib/config'
 import { NextIronRequest } from '../../../types/index'
 
-export const getVerifierToken = async (
+const getVerifierToken = async (
   req: NextIronRequest,
   res: NextApiResponse
 ) => {
@@ -36,7 +36,7 @@ export const getVerifierToken = async (
     accessSecret: oauthTokenSecret,
   }).login(oauth_verifier)
 
-  console.log({ loginResult })
-
-  res.redirect('/')
+  res.redirect('/lol')
 }
+
+export default getVerifierToken

@@ -1,7 +1,7 @@
 import { NextApiResponse } from 'next'
 import TwitterApi from 'twitter-api-v2'
 
-import { TWITTER_CONFIG } from './config'
+import { TWITTER_CONFIG } from '../../../lib/config'
 import { IRON_SESSION_ID_KEY, IS_PRODUCTION } from '../../../utils/index'
 import { AppSession, NextIronRequest } from '../../../types/index'
 
@@ -12,7 +12,7 @@ export const SERVER_URL = IS_PRODUCTION
   ? 'https://tweetfairy.com/api/'
   : 'http://localhost:3001/'
 
-export const generateAuthLink = async (
+const generateAuthLink = async (
   req: NextIronRequest,
   res: NextApiResponse
 ) => {
@@ -35,3 +35,5 @@ export const generateAuthLink = async (
   // redirect to the authentication URL
   res.redirect(url)
 }
+
+export default generateAuthLink
