@@ -4,7 +4,6 @@ import TwitterApi from 'twitter-api-v2'
 import { TWITTER_CONFIG } from './config'
 import { IRON_SESSION_ID_KEY, IS_PRODUCTION } from '../../../utils/index'
 import { AppSession, NextIronRequest } from '../../../types/index'
-import { randomUUID } from 'crypto'
 
 export const CLIENT_URL = IS_PRODUCTION
   ? 'https://tweetfairy.com/'

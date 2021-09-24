@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiResponse } from 'next'
 import cookieSession from 'cookie-session'
 import nc from 'next-connect'
 import { ironSession } from 'next-iron-session'
@@ -24,21 +24,21 @@ function handler() {
       `Please add COOKIE_SECRET & SESSION_SECRET to your .env.local file!`
     )
 
-  return nc({
+  return nc<NextIronRequest, NextApiResponse>({
     onError: (err, _, res) => {
       error(err)
       res.status(500).end(err.toString())
     },
   })
-    // .use(
-    //   cookieSession({
-    //     name: 'session',
-    //     keys: [COOKIE_SECRET],
-    //     maxAge: 24 * 60 * 60 * 1000 * 30,
-    //     secure: IS_PRODUCTION && !process.env.INSECURE_AUTH,
-    //     signed: IS_PRODUCTION && !process.env.INSECURE_AUTH,
-    //   })
-    // )
+    .use(
+      cookieSession({
+        name: 'session',
+        keys: [COOKIE_SECRET],
+        maxAge: 24 * 60 * 60 * 1000 * 30,
+        secure: IS_PRODUCTION && !process.env.INSECURE_AUTH,
+        signed: IS_PRODUCTION && !process.env.INSECURE_AUTH,
+      })
+    )
     .use(
       ironSession({
         cookieName: 'mysite-session',
