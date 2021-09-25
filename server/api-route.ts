@@ -39,6 +39,20 @@ function handler() {
         signed: IS_PRODUCTION && !process.env.INSECURE_AUTH,
       })
     )
+    // .use(cors())
+    .use((req,res,next)=> {
+      console.log('cors')
+      res.setHeader("Access-Control-Allow-Origin", "*")
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+      );
+      if (req.method == "OPTIONS") {
+        res.setHeader("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+        return res.status(200).json({});
+      }
+      next()
+    })
     // .use(
     //   ironSession({
     //     cookieName: 'mysite-session',
