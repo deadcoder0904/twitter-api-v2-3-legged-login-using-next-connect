@@ -11,4 +11,3 @@ export const SERVER_URL = IS_PRODUCTION
 
 
 export const SESSION_TTL = 182 * 24 * 3600
-export const IRON_SESSION_ID_KEY = 'sessionID'

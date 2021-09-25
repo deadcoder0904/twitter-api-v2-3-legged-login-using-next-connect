@@ -18,7 +18,7 @@ const getVerifierToken = async (
   }
 
   if (!req.session.get(oauth_token))
-    throw new Error("Can't find `twitterTokenSecret` in `req.session`")
+    throw new Error("Can't find `oauth_token` in `req.session`")
 
   const oauthTokenSecret = req.session.get(oauth_token)
 
@@ -37,7 +37,7 @@ const getVerifierToken = async (
     accessSecret: oauthTokenSecret,
   }).login(oauth_verifier)
 
-  res.redirect('/lol')
+  res.redirect('/app')
 }
 
 export default handler().get(getVerifierToken)
