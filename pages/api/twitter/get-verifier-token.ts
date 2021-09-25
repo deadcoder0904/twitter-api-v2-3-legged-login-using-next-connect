@@ -1,16 +1,14 @@
-import { withIronSession } from './../../../lib/withIronSession'
 import { NextApiResponse } from 'next'
 import TwitterApi from 'twitter-api-v2'
 
 import { TWITTER_CONFIG } from '../../../lib/config'
 import { NextIronRequest } from '../../../types/index'
+import handler from '../../../server/api-route'
 
 const getVerifierToken = async (
   req: NextIronRequest,
   res: NextApiResponse
 ) => {
-  console.log('getVerifierToken')
-
   // check query params and session data
   const { oauth_token, oauth_verifier } = req.query
 
@@ -42,4 +40,4 @@ const getVerifierToken = async (
   res.redirect('/lol')
 }
 
-export default withIronSession(getVerifierToken)
+export default handler().get(getVerifierToken)

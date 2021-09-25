@@ -1,5 +1,5 @@
 import { NextApiResponse } from 'next'
-import cookieSession from 'cookie-session'
+import cors from 'cors'
 import nc from 'next-connect'
 import { ironSession } from 'next-iron-session'
 import { error } from 'next/dist/build/output/log'
@@ -30,39 +30,29 @@ function handler() {
       res.status(500).end(err.toString())
     },
   })
-    .use(
-      cookieSession({
-        name: 'session',
-        keys: [COOKIE_SECRET],
-        maxAge: 24 * 60 * 60 * 1000 * 30,
-        secure: IS_PRODUCTION && !process.env.INSECURE_AUTH,
-        signed: IS_PRODUCTION && !process.env.INSECURE_AUTH,
-      })
-    )
     // .use(cors())
-    .use((req,res,next)=> {
-      console.log('cors')
-      res.setHeader("Access-Control-Allow-Origin", "*")
-      res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-      );
-      if (req.method == "OPTIONS") {
-        res.setHeader("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
-        return res.status(200).json({});
-      }
-      next()
-    })
-    // .use(
-    //   ironSession({
-    //     cookieName: 'mysite-session',
-    //     password: SESSION_SECRET,
-    //     // if your localhost is served on http:// then disable the secure flag
-    //     cookieOptions: {
-    //       secure: IS_PRODUCTION,
-    //     },
-    //   })
-    // )
+    .use(
+      ironSession({
+        cookieName: 'mysite-session',
+        password: SESSION_SECRET,
+        // if your localhost is served on http:// then disable the secure flag
+        cookieOptions: {
+          secure: IS_PRODUCTION,
+        },
+      })
+      )
+      .use((req,res,next)=> {
+        res.setHeader("Access-Control-Allow-Origin", "*")
+        res.setHeader(
+          "Access-Control-Allow-Headers",
+          "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+        );
+        if (req.method == "OPTIONS") {
+          res.setHeader("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+          return res.status(200).json({});
+        }
+        next()
+      })
 }
 
 export default handler

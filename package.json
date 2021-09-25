@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "cookie": "0.4.1",
-    "cookie-session": "^1.4.0",
     "cors": "^2.8.5",
     "next": "latest",
     "next-connect": "^0.10.2",

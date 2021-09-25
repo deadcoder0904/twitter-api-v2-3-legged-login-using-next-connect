@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { CLIENT_URL } from "../utils";
 
 const twitterLogin = async () => {
@@ -19,4 +20,6 @@ const twitterLogin = async () => {
   // authWindow.location.href = authURL;
 }
 
-export const Login = () => <button onClick={twitterLogin}>Login with Twitter</button>
+export const Login = () => <>
+  <Link href={`${CLIENT_URL}api/twitter/generate-auth-link`}>Login with Twitter</Link>
+</>
