@@ -13,7 +13,7 @@ const twitterLogin = async () => {
     return;
   }
 
-  const res = await fetch(`${CLIENT_URL}api/twitter/generate-auth-link`);
+  const res = await fetch(`${CLIENT_URL}/api/twitter/generate-auth-link`);
 	console.log({res})
   
 	// const authURL = res.data.redirect;
@@ -21,6 +21,6 @@ const twitterLogin = async () => {
 }
 
 export const Login = () => <>
-  <Link href={`${CLIENT_URL}api/twitter/generate-auth-link`}>Login with Twitter</Link>
+  <Link href='/api/twitter/generate-auth-link'>Login with Twitter</Link>
   {/* <button onClick={twitterLogin}>Login</button> */}
 </>

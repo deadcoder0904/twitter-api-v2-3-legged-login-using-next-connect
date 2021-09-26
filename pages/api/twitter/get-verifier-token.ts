@@ -30,12 +30,14 @@ const getVerifierToken = async (
   }
 
   // fetch the token / secret / account infos (from the temporary one)
-  const loginResult = await new TwitterApi({
+  const user = await new TwitterApi({
     appKey: TWITTER_CONFIG.consumerKey,
     appSecret: TWITTER_CONFIG.consumerSecret,
     accessToken: oauth_token,
     accessSecret: oauthTokenSecret,
   }).login(oauth_verifier)
+
+  req.session.set('user', user)
 
   res.redirect('/app')
 }
