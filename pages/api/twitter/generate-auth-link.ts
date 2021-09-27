@@ -14,7 +14,7 @@ const generateAuthLink = async (
   const { url, oauth_token, oauth_token_secret } = await new TwitterApi({
     appKey: TWITTER_CONFIG.consumerKey,
     appSecret: TWITTER_CONFIG.consumerSecret,
-  }).generateAuthLink(`${SERVER_URL}/api/twitter/get-verifier-token`, {linkMode:'authorize'})
+  }).generateAuthLink(`${SERVER_URL}/api/twitter/get-verifier-token`)
   
   req.session.set(oauth_token, oauth_token_secret)
   await req.session.save()
