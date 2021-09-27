@@ -1,6 +1,3 @@
-import Link from 'next/link'
-import { CLIENT_URL } from "../utils";
-
 const twitterLogin = async () => {
   const authWindow = window.open(
     "about:blank",
@@ -13,14 +10,21 @@ const twitterLogin = async () => {
     return;
   }
 
-  const res = await fetch(`${CLIENT_URL}/api/twitter/generate-auth-link`);
-	console.log({res})
+  const res = await fetch(`/api/twitter/generate-auth-link`);
+  const data: {url: string} = await res.json()
   
-	// const authURL = res.data.redirect;
-  // authWindow.location.href = authURL;
+	const authURL = data.url;
+  authWindow.location.href = authURL;
+
+  // listen for "window.opener.postMessage" sent from backend via <script>
+  window.addEventListener("message", (event) => {
+    console.log({event})
+    if (event?.data?.success) {
+      const token = event?.data?.token;
+    }
+  });
 }
 
 export const Login = () => <>
-  <Link href='/api/twitter/generate-auth-link'>Login with Twitter</Link>
-  {/* <button onClick={twitterLogin}>Login</button> */}
+  <button onClick={twitterLogin}>Login with Twitter</button>
 </>

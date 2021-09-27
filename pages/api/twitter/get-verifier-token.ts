@@ -39,7 +39,8 @@ const getVerifierToken = async (
 
   req.session.set('user', user)
 
-  res.redirect('/app')
+  // window.postMessage('message')
+  res.send({url:'/app'})
 }
 
 export default handler().get(getVerifierToken)

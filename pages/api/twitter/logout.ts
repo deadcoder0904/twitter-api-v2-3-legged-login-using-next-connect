@@ -11,7 +11,6 @@ const logout = async (
 ) => {
   // // check query params and session data
   // const { oauth_token, oauth_verifier } = req.query
-
 	req.session.destroy()
 
   res.redirect('/')
