@@ -1,5 +1,4 @@
 import { NextApiResponse } from 'next'
-import cors from 'cors'
 import nc from 'next-connect'
 import { ironSession } from 'next-iron-session'
 import { error } from 'next/dist/build/output/log'
@@ -30,7 +29,6 @@ function handler() {
       res.status(500).end(err.toString())
     },
   })
-    // .use(cors())
     .use(
       ironSession({
         cookieName: 'mysite-session',
@@ -40,19 +38,7 @@ function handler() {
           secure: IS_PRODUCTION,
         },
       })
-      )
-      .use((req,res,next)=> {
-        res.setHeader("Access-Control-Allow-Origin", "*")
-        res.setHeader(
-          "Access-Control-Allow-Headers",
-          "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-        );
-        if (req.method == "OPTIONS") {
-          res.setHeader("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
-          return res.status(200).json({});
-        }
-        next()
-      })
+    )
 }
 
 export default handler
