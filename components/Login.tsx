@@ -11,16 +11,16 @@ const twitterLogin = async () => {
   }
 
   const res = await fetch(`/api/twitter/generate-auth-link`);
-  const data: {url: string} = await res.json()
+  const data: {redirect: string} = await res.json()
   
-	const authURL = data.url;
+	const authURL = data.redirect;
   authWindow.location.href = authURL;
 
   // listen for "window.opener.postMessage" sent from backend via <script>
   window.addEventListener("message", (event) => {
-    console.log({event})
-    if (event?.data?.success) {
-      const token = event?.data?.token;
+    if (event?.data?.username) {
+      const username = event?.data?.username;
+      window.location.href = `/app?username=${username}`
     }
   });
 }

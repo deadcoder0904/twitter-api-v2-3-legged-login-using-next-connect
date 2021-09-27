@@ -20,7 +20,7 @@ const generateAuthLink = async (
   await req.session.save()
 
   // redirect to the authentication URL
-  res.send({url})
+  res.send({redirect:url})
 }
 
 export default handler().get(generateAuthLink)

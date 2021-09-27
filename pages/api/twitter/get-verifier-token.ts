@@ -1,3 +1,4 @@
+import { SERVER_URL } from './../../../utils/index'
 import { NextApiResponse } from 'next'
 import TwitterApi from 'twitter-api-v2'
 
@@ -30,17 +31,26 @@ const getVerifierToken = async (
   }
 
   // fetch the token / secret / account infos (from the temporary one)
-  const user = await new TwitterApi({
+  const {client,accessToken,accessSecret,screenName,userId} = await new TwitterApi({
     appKey: TWITTER_CONFIG.consumerKey,
     appSecret: TWITTER_CONFIG.consumerSecret,
     accessToken: oauth_token,
     accessSecret: oauthTokenSecret,
   }).login(oauth_verifier)
 
-  req.session.set('user', user)
+  req.session.set('user', {accessToken,accessSecret})
 
-  // window.postMessage('message')
-  res.send({url:'/app'})
+  res.send(`
+<html>
+  <body>
+    <h1>You successfully logged in! closing this window...</h1>
+  </body>
+  <script>
+    window.opener && window.opener.postMessage({ username: '${screenName}' }, '${SERVER_URL}');
+    close();
+  </script>
+</html>
+  `)
 }
 
 export default handler().get(getVerifierToken)
