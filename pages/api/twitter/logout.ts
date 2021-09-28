@@ -8,7 +8,7 @@ const logout = async (
   res: NextApiResponse
 ) => {
 	req.session.destroy()
-  res.status(200).send({})
+  res.status(204).end()
 }
 
 export default handler().get(logout)
