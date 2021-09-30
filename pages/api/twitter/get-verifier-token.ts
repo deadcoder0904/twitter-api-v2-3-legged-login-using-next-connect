@@ -6,10 +6,7 @@ import { TWITTER_CONFIG } from '../../../lib/config'
 import { NextIronRequest } from '../../../types/index'
 import handler from '../../../server/api-route'
 
-const getVerifierToken = async (
-  req: NextIronRequest,
-  res: NextApiResponse
-) => {
+const getVerifierToken = async (req: NextIronRequest, res: NextApiResponse) => {
   // check query params and session data
   const { oauth_token, oauth_verifier } = req.query
 
@@ -31,14 +28,15 @@ const getVerifierToken = async (
   }
 
   // fetch the token / secret / account infos (from the temporary one)
-  const {client,accessToken,accessSecret,screenName,userId} = await new TwitterApi({
-    appKey: TWITTER_CONFIG.consumerKey,
-    appSecret: TWITTER_CONFIG.consumerSecret,
-    accessToken: oauth_token,
-    accessSecret: oauthTokenSecret,
-  }).login(oauth_verifier)
+  const { client, accessToken, accessSecret, screenName, userId } =
+    await new TwitterApi({
+      appKey: TWITTER_CONFIG.consumerKey,
+      appSecret: TWITTER_CONFIG.consumerSecret,
+      accessToken: oauth_token,
+      accessSecret: oauthTokenSecret,
+    }).login(oauth_verifier)
 
-  req.session.set('user', {accessToken,accessSecret})
+  req.session.set('user', { accessToken, accessSecret })
 
   res.send(`
 <html>

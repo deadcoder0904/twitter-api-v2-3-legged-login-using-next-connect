@@ -1,16 +1,15 @@
-
 // This types process.env.TWITTER_BEARER_TOKEN
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
-	namespace NodeJS {
+  namespace NodeJS {
     interface ProcessEnv {
       TWITTER_CONSUMER_KEY: string
-			TWITTER_CONSUMER_SECRET: string
-			TWITTER_BEARER_TOKEN: string
-			TWITTER_ACCESS_TOKEN: string
-			TWITTER_TOKEN_SECRET: string
-		}
-	}
+      TWITTER_CONSUMER_SECRET: string
+      TWITTER_BEARER_TOKEN: string
+      TWITTER_ACCESS_TOKEN: string
+      TWITTER_TOKEN_SECRET: string
+    }
+  }
 }
 
 if (!process.env.TWITTER_CONSUMER_KEY && !process.env.TWITTER_CONSUMER_SECRET)

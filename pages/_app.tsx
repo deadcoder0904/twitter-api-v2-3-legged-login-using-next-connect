@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app'
 
-function CustomApp({ Component, pageProps }: AppProps) {
+const CustomApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Component {...pageProps} />

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 
 const App = () => {
   const router = useRouter()
-  const {username} = router.query
+  const { username } = router.query
 
   const logout = async () => {
     await fetch('/api/twitter/logout')
@@ -12,7 +12,7 @@ const App = () => {
   return (
     <>
       <h1>Welcome {username}, you're logged in</h1>
-			<button onClick={logout}>Logout</button>
+      <button onClick={logout}>Logout</button>
     </>
   )
 }

@@ -9,5 +9,4 @@ export const SERVER_URL = IS_PRODUCTION
   ? 'https://mysite.com/api'
   : 'http://localhost:3000'
 
-
 export const SESSION_TTL = 182 * 24 * 3600
