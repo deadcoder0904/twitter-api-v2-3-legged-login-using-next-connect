@@ -1,5 +1,7 @@
 import { useRouter } from 'next/router'
 
+import { getUserFromServerSession } from '../server/withAuth'
+
 const App = () => {
   const router = useRouter()
   const { username } = router.query
@@ -16,5 +18,9 @@ const App = () => {
     </>
   )
 }
+
+export const getServerSideProps = getUserFromServerSession({
+  redirectToLogin: true,
+})
 
 export default App

@@ -10,3 +10,16 @@ export const SERVER_URL = IS_PRODUCTION
   : 'http://localhost:3000'
 
 export const SESSION_TTL = 182 * 24 * 3600
+
+const SESSION_SECRET = process.env.SESSION_SECRET
+if (!SESSION_SECRET)
+  throw new Error(`Please add SESSION_SECRET to your .env.local file!`)
+
+export const SESSION_CONFIG = {
+  cookieName: 'mysite-session',
+  password: SESSION_SECRET,
+  // if your localhost is served on http:// then disable the secure flag
+  cookieOptions: {
+    secure: IS_PRODUCTION,
+  },
+}
