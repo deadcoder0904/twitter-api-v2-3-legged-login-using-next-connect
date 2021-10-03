@@ -2,8 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import NextAuth from 'next-auth'
 import TwitterProvider from 'next-auth/providers/twitter'
 
-import { IS_DEVELOPMENT } from '../../../utils'
-
 const options = {
   site: process.env.NEXTAUTH_URL,
   providers: [
@@ -12,12 +10,10 @@ const options = {
       clientSecret: process.env.TWITTER_CONSUMER_SECRET,
     }),
   ],
-  // pages: {
-  //   signIn: '/',
-  //   signOut: '/auth/logout',
-  //   error: '/auth/error', // Error code passed in query string as ?error=
-  // },
-  debug: IS_DEVELOPMENT,
+  pages: {
+    signIn: '/',
+  },
+  debug: process.env.NODE_ENV === 'development',
 }
 
 export default (req: NextApiRequest, res: NextApiResponse) =>
