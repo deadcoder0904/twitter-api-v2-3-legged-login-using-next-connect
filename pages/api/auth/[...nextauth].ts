@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import NextAuth from 'next-auth'
+import NextAuth, { NextAuthOptions } from 'next-auth'
 import TwitterProvider from 'next-auth/providers/twitter'
 
-const options = {
-  site: process.env.NEXTAUTH_URL,
+const options: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     TwitterProvider({
       clientId: process.env.TWITTER_CONSUMER_KEY,
@@ -12,6 +12,18 @@ const options = {
   ],
   pages: {
     signIn: '/',
+  },
+  callbacks: {
+    async jwt({ token, account }) {
+      if (account) {
+        token[account.provider] = {
+          accessToken: account.access_token,
+          refreshToken: account.refresh_token,
+        }
+      }
+
+      return token
+    },
   },
   debug: process.env.NODE_ENV === 'development',
 }
