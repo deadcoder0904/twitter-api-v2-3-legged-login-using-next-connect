@@ -3,7 +3,6 @@ import NextAuth, { NextAuthOptions } from 'next-auth'
 import TwitterProvider from 'next-auth/providers/twitter'
 
 const options: NextAuthOptions = {
-  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     TwitterProvider({
       clientId: process.env.TWITTER_CONSUMER_KEY,
@@ -16,16 +15,19 @@ const options: NextAuthOptions = {
   callbacks: {
     async jwt({ token, account }) {
       if (account) {
+        console.log({ account })
         token[account.provider] = {
           accessToken: account.access_token,
           refreshToken: account.refresh_token,
         }
+        console.log({ token })
       }
 
       return token
     },
   },
   debug: process.env.NODE_ENV === 'development',
+  secret: process.env.NEXTAUTH_SECRET,
 }
 
 export default (req: NextApiRequest, res: NextApiResponse) =>

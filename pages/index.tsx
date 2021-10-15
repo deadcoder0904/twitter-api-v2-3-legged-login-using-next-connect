@@ -1,3 +1,4 @@
+import React from 'react'
 import { GetServerSideProps } from 'next'
 import {
   signIn,
@@ -6,13 +7,40 @@ import {
   getProviders,
   ClientSafeProvider,
 } from 'next-auth/react'
-
 interface IHomePage {
   providers: Record<string, ClientSafeProvider>
 }
 
+interface User {
+  name: string
+  screen_name: string
+}
+
+interface Twit {
+  id: string
+  text: string
+  user: User
+}
+
 const HomePage = ({ providers }: IHomePage) => {
+  const [statuses, setStatuses] = React.useState([])
   const session = useSession()
+
+  async function handleOnSearchSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+
+    const formData = new FormData(e.currentTarget)
+    const query = formData.get('query')
+
+    const results = await fetch('/api/twitter/search', {
+      method: 'POST',
+      body: JSON.stringify({
+        query,
+      }),
+    }).then((res) => res.json())
+
+    setStatuses(results.data)
+  }
 
   if (session && session.data)
     return (
@@ -30,13 +58,33 @@ const HomePage = ({ providers }: IHomePage) => {
           Login with {provider.name}
         </button>
       ))}
+      {/* <div>
+        <form onSubmit={handleOnSearchSubmit}>
+          <h2>Search</h2>
+          <input type="search" name="query" />
+          <button>Search</button>
+        </form>
+        {statuses && (
+          <ul>
+            {statuses.map(({ id, text, user }) => {
+              return (
+                <li key={id}>
+                  <p>{text}</p>
+                  <p>
+                    By {user.name} ({user.screen_name})
+                  </p>
+                </li>
+              )
+            })}
+          </ul>
+        )}
+      </div> */}
     </>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const providers = await getProviders()
-
   return {
     props: {
       providers,

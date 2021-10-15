@@ -10,8 +10,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       token: process.env.NEXTAUTH_SECRET,
     })
 
-    console.log('session', session)
-    console.log('token', token)
+    console.log({ session })
+    console.log({ token })
     return res.status(200).json({
       status: 'Ok',
       data: [],
