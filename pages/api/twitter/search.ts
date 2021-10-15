@@ -7,7 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req })
     const token = await getToken({
       req,
-      token: process.env.NEXTAUTH_SECRET,
+      secret: process.env.NEXTAUTH_SECRET,
     })
 
     console.log({ session })
