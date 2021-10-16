@@ -42,13 +42,14 @@ const HomePage = ({ providers }: IHomePage) => {
     setStatuses(results.data)
   }
 
-  if (session && session.data)
+  if (session && session.data) {
     return (
       <>
         <h1>Welcome to dashboard, {session.data?.user?.name}</h1>
         <button onClick={() => signOut()}>Logout</button>
       </>
     )
+  }
 
   return (
     <>

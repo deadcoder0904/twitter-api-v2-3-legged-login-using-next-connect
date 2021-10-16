@@ -13,20 +13,19 @@ const options: NextAuthOptions = {
     signIn: '/',
   },
   callbacks: {
-    async jwt({ token, account }) {
+    async jwt({ token, account, user }) {
       if (account) {
-        console.log({ account })
         token[account.provider] = {
           accessToken: account.access_token,
           refreshToken: account.refresh_token,
         }
-        console.log({ token })
+        console.log(token[account.provider])
       }
 
       return token
     },
   },
-  debug: process.env.NODE_ENV === 'development',
+  // debug: process.env.NODE_ENV === 'development',
   secret: process.env.NEXTAUTH_SECRET,
 }
 
