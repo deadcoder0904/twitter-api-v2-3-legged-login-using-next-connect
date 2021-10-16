@@ -7,6 +7,7 @@ import {
   getProviders,
   ClientSafeProvider,
 } from 'next-auth/react'
+import { useRouter } from 'next/dist/client/router'
 interface IHomePage {
   providers: Record<string, ClientSafeProvider>
 }
@@ -25,6 +26,7 @@ interface Twit {
 const HomePage = ({ providers }: IHomePage) => {
   const [statuses, setStatuses] = React.useState([])
   const session = useSession()
+  const router = useRouter()
 
   async function handleOnSearchSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -46,7 +48,15 @@ const HomePage = ({ providers }: IHomePage) => {
     return (
       <>
         <h1>Welcome to dashboard, {session.data?.user?.name}</h1>
-        <button onClick={() => signOut()}>Logout</button>
+        <button
+          onClick={async () => {
+            // makes sure the page doesn't refresh after logout. see https://next-auth.js.org/getting-started/client#using-the-redirect-false-option-1
+            const data = await signOut({ redirect: false })
+            router.push(data.url)
+          }}
+        >
+          Logout
+        </button>
       </>
     )
   }
