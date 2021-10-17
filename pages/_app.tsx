@@ -1,5 +1,5 @@
 import { AppProps } from 'next/app'
-import { SessionProvider } from 'next-auth/react'
+import { Provider } from 'next-auth/client'
 
 const CustomApp = ({
   Component,
@@ -7,9 +7,9 @@ const CustomApp = ({
 }: AppProps) => {
   return (
     <>
-      <SessionProvider session={session}>
+      <Provider session={session}>
         <Component {...pageProps} />
-      </SessionProvider>
+      </Provider>
     </>
   )
 }

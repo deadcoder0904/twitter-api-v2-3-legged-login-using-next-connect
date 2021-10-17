@@ -6,8 +6,8 @@ import {
   useSession,
   getProviders,
   ClientSafeProvider,
-} from 'next-auth/react'
-import { useRouter } from 'next/dist/client/router'
+} from 'next-auth/client'
+import { useRouter } from 'next/router'
 interface IHomePage {
   providers: Record<string, ClientSafeProvider>
 }
@@ -25,7 +25,7 @@ interface Twit {
 
 const HomePage = ({ providers }: IHomePage) => {
   const [statuses, setStatuses] = React.useState([])
-  const session = useSession()
+  const [session] = useSession()
   const router = useRouter()
 
   async function handleOnSearchSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -44,10 +44,10 @@ const HomePage = ({ providers }: IHomePage) => {
     setStatuses(results.data)
   }
 
-  if (session && session.data) {
+  if (session && session.user) {
     return (
       <>
-        <h1>Welcome to dashboard, {session.data?.user?.name}</h1>
+        <h1>Welcome to dashboard, {session.user?.name}</h1>
         <button
           onClick={async () => {
             // makes sure the page doesn't refresh after logout. see https://next-auth.js.org/getting-started/client#using-the-redirect-false-option-1

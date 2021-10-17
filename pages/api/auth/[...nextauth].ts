@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import NextAuth, { NextAuthOptions } from 'next-auth'
-import TwitterProvider from 'next-auth/providers/twitter'
+import Providers from 'next-auth/providers'
 
 const options: NextAuthOptions = {
   providers: [
-    TwitterProvider({
+    Providers.Twitter({
       clientId: process.env.TWITTER_CONSUMER_KEY,
       clientSecret: process.env.TWITTER_CONSUMER_SECRET,
     }),
@@ -13,11 +13,11 @@ const options: NextAuthOptions = {
     signIn: '/',
   },
   callbacks: {
-    async jwt({ token, account, user }) {
+    async jwt(token, user, account) {
       if (account) {
         token[account.provider] = {
-          accessToken: account.access_token,
-          refreshToken: account.refresh_token,
+          accessToken: account.accessToken,
+          refreshToken: account.refreshToken,
         }
         console.log(token[account.provider])
       }
