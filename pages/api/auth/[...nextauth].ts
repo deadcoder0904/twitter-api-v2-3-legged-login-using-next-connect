@@ -19,7 +19,6 @@ const options: NextAuthOptions = {
           accessToken: account.accessToken,
           refreshToken: account.refreshToken,
         }
-        console.log(token[account.provider])
       }
 
       return token

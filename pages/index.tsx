@@ -12,19 +12,13 @@ interface IHomePage {
   providers: Record<string, ClientSafeProvider>
 }
 
-interface User {
-  name: string
-  screen_name: string
-}
-
 interface Twit {
   id: string
   text: string
-  user: User
 }
 
 const HomePage = ({ providers }: IHomePage) => {
-  const [statuses, setStatuses] = React.useState([])
+  const [statuses, setStatuses] = React.useState<Twit[]>([])
   const [session] = useSession()
   const router = useRouter()
 
@@ -48,6 +42,20 @@ const HomePage = ({ providers }: IHomePage) => {
     return (
       <>
         <h1>Welcome to dashboard, {session.user?.name}</h1>
+        <div>
+          <form onSubmit={handleOnSearchSubmit}>
+            <h2>Search</h2>
+            <input type="search" name="query" />
+            <button>Search</button>
+          </form>
+          {statuses && (
+            <ul>
+              {statuses.map(({ id, text }) => (
+                <li key={id}>{text}</li>
+              ))}
+            </ul>
+          )}
+        </div>
         <button
           onClick={async () => {
             // makes sure the page doesn't refresh after logout. see https://next-auth.js.org/getting-started/client#using-the-redirect-false-option-1
@@ -69,27 +77,6 @@ const HomePage = ({ providers }: IHomePage) => {
           Login with {provider.name}
         </button>
       ))}
-      {/* <div>
-        <form onSubmit={handleOnSearchSubmit}>
-          <h2>Search</h2>
-          <input type="search" name="query" />
-          <button>Search</button>
-        </form>
-        {statuses && (
-          <ul>
-            {statuses.map(({ id, text, user }) => {
-              return (
-                <li key={id}>
-                  <p>{text}</p>
-                  <p>
-                    By {user.name} ({user.screen_name})
-                  </p>
-                </li>
-              )
-            })}
-          </ul>
-        )}
-      </div> */}
     </>
   )
 }
