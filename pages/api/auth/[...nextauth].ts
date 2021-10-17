@@ -16,10 +16,9 @@ const options: NextAuthOptions = {
     async jwt({ token, account, user }) {
       if (account) {
         token[account.provider] = {
-          accessToken: account.access_token,
-          refreshToken: account.refresh_token,
+          accessToken: account.oauth_token,
+          refreshToken: account.oauth_token_secret,
         }
-        console.log(token[account.provider])
       }
 
       return token
