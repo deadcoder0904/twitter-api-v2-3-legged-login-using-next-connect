@@ -18,6 +18,10 @@ const options: NextAuthOptions = {
     signIn: '/',
   },
   callbacks: {
+    async signIn({ user, profile }) {
+      user.username = profile.screen_name
+      return true
+    },
     async jwt({ token, account }) {
       if (account) {
         token[account.provider] = {
