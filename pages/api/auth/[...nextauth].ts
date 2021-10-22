@@ -1,8 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import TwitterProvider from 'next-auth/providers/twitter'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient()
 
 const options: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     TwitterProvider({
       clientId: process.env.TWITTER_CONSUMER_KEY,
@@ -13,7 +18,7 @@ const options: NextAuthOptions = {
     signIn: '/',
   },
   callbacks: {
-    async jwt({ token, account, user }) {
+    async jwt({ token, account }) {
       if (account) {
         token[account.provider] = {
           accessToken: account.oauth_token,

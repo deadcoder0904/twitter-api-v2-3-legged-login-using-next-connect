@@ -9,7 +9,7 @@ import {
 } from 'next-auth/react'
 import { useRouter } from 'next/router'
 interface IHomePage {
-  providers: Record<string, ClientSafeProvider>
+  providers: Record<string, ClientSafeProvider> | null
 }
 
 interface Twit {
@@ -72,7 +72,7 @@ const HomePage = ({ providers }: IHomePage) => {
   return (
     <>
       <h1>3-legged Twitter Oauth using next-auth</h1>
-      {Object.values(providers).map((provider) => (
+      {Object.values(providers ?? {}).map((provider) => (
         <button key={provider.name} onClick={() => signIn(provider.id)}>
           Login with {provider.name}
         </button>
