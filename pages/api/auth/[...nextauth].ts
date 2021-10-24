@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import NextAuth, { NextAuthOptions } from 'next-auth'
+import NextAuth, { NextAuthOptions, User } from 'next-auth'
+import { getSession } from 'next-auth/react'
 import TwitterProvider from 'next-auth/providers/twitter'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { PrismaClient } from '@prisma/client'
@@ -33,9 +34,16 @@ const options: NextAuthOptions = {
       return token
     },
   },
-  // debug: process.env.NODE_ENV === 'development',
+  debug: process.env.NODE_ENV === 'development',
   secret: process.env.NEXTAUTH_SECRET,
 }
 
-export default (req: NextApiRequest, res: NextApiResponse) =>
-  NextAuth(req, res, options)
+export default async (
+  req: NextApiRequest & { user: User },
+  res: NextApiResponse
+) => {
+  const session = await getSession({ req })
+  req.user = session?.user as User
+
+  return NextAuth(req, res, options)
+}
