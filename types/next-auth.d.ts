@@ -15,7 +15,14 @@ declare module 'next-auth' {
    * or the second parameter of the `session` callback, when using a database.
    */
   interface User {
+    /** The user's username. */
     username: string
+  }
+  /**
+   * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+   */
+  interface Session {
+    user: User
   }
   /**
    * Usually contains information about the provider being used
