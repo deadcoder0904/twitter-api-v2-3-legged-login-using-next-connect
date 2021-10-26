@@ -6,7 +6,7 @@
     "debug": "cross-env NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
-    "generate": "npm run generate:prisma && npm run generate:graphql-codegen",
+    "generate": "npm run generate:prisma && npm run generate:nexus && npm run generate:graphql-codegen",
     "generate:prisma": "prisma generate",
     "generate:nexus": "cross-env GENERATE=true cross-env DOTENV_CONFIG_PATH=.env.example ts-node -r tsconfig-paths/register --require dotenv/config --transpile-only -P nexus.tsconfig.json server/graphql/schema.ts",
     "generate:graphql-codegen": "graphql-codegen"
@@ -19,6 +19,7 @@
     "next": "latest",
     "next-auth": "^4.0.0-beta.4",
     "next-connect": "^0.11.0",
+    "nexus": "^1.1.0",
     "nexus-prisma": "^0.34.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

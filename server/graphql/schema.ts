@@ -5,7 +5,7 @@ import User from './User'
 
 const shouldGenerateArtifacts =
   process.env.NODE_ENV === 'development' || !!process.env.GENERATE
-console.log(path.join(process.cwd(), 'server/graphql/schema.graphql'))
+
 export const schema = makeSchema({
   types: [User],
   plugins: [],
