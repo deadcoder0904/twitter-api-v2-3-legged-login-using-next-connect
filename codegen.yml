@@ -3,7 +3,7 @@ documents:
   - '**/*.graphql'
   - '!/server/graphql/schema.graphql'
 generates:
-  /client/graphql/types.generated.ts:
+  client/graphql/types.generated.ts:
     plugins:
       - typescript
   ./:

@@ -1,0 +1,9 @@
+query GetUsers {
+  currentUser {
+    __typename
+    id
+    name
+    username
+    email
+  }
+}

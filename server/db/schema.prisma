@@ -7,9 +7,9 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator nexusPrisma {
-  provider = "nexus-prisma"
-}
+// generator nexusPrisma {
+//   provider = "nexus-prisma"
+// }
 
 model Account {
   id                 String  @id @default(cuid())

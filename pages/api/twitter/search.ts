@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     req,
     secret: process.env.NEXTAUTH_SECRET,
   })
-  console.log({ token })
+
   if (!token)
     return res.status(401).json({
       status: 'token is null',
