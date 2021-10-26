@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     req,
     secret: process.env.NEXTAUTH_SECRET,
   })
-
+  console.log({ token })
   if (!token)
     return res.status(401).json({
       status: 'token is null',
@@ -20,8 +20,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   const userClient = new TwitterApi({
     appKey: process.env.TWITTER_CONSUMER_KEY,
     appSecret: process.env.TWITTER_CONSUMER_SECRET,
-    accessToken: token.twitter.accessToken,
-    accessSecret: token.twitter.refreshToken,
+    accessToken: token.twitter.oauth_token,
+    accessSecret: token.twitter.oauth_token_secret,
   })
 
   try {

@@ -3,8 +3,8 @@ import { JWT } from 'next-auth/jwt'
 declare module 'next-auth/jwt' {
   interface JWT {
     [key: string]: {
-      accessToken: string | undefined
-      refreshToken: string | undefined
+      oauth_token: string | undefined
+      oauth_token_secret: string | undefined
     }
   }
 }

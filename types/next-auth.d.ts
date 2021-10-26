@@ -3,9 +3,20 @@ import { JWT } from 'next-auth/jwt'
 declare module 'next-auth/jwt' {
   interface JWT {
     [key: string]: {
-      accessToken: string | undefined
-      refreshToken: string | undefined
+      /**
+       * Twitter's Accesss Token or Oauth Token
+       */
+      oauth_token: string
+      /**
+       * Twitter's Refresh Token or Oauth Token Secret
+       */
+      oauth_token_secret: string
     }
+
+    user: User
+
+    /** The user's username. */
+    username: string | undefined
   }
 }
 
@@ -29,7 +40,13 @@ declare module 'next-auth' {
    * and also extends `TokenSet`, which is different tokens returned by OAuth Providers.
    */
   interface Account {
+    /**
+     * Twitter's Accesss Token or Oauth Token
+     */
     oauth_token: string
+    /**
+     * Twitter's Refresh Token or Oauth Token Secret
+     */
     oauth_token_secret: string
   }
   /** The OAuth profile returned from your provider */

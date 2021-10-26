@@ -41,7 +41,9 @@ const HomePage = ({ providers }: IHomePage) => {
   if (session && session.data) {
     return (
       <>
-        <h1>Welcome to dashboard, {session.data.user?.username}</h1>
+        <h1>
+          Welcome to the dashboard, <i>*{session.data.user?.username}*</i>
+        </h1>
         <div>
           <form onSubmit={handleOnSearchSubmit}>
             <h2>Search</h2>
