@@ -86,13 +86,15 @@ const queries = extendType({
   definition: (t) => {
     t.field('currentUser', {
       type: 'User',
-      args: {},
-      resolve: (_, args, ctx) => {
-        if (!ctx.user?.id) return null
+      args: {
+        id: nonNull(stringArg()),
+      },
+      resolve: (_, { id }, ctx) => {
+        if (!id) return null
 
         return ctx.prisma.user.findUnique({
           where: {
-            id: ctx.user.id,
+            id,
           },
         })
       },
@@ -100,18 +102,15 @@ const queries = extendType({
   },
 })
 
-export const UserMutations = extendType({
+export const mutations = extendType({
   type: 'Mutation',
   definition: (t) => {
     t.field('createUser', {
       type: 'User',
       args: {
-        id: nonNull(stringArg()),
         username: nonNull(stringArg()),
       },
-      resolve: async (_, { id, username }, ctx) => {
-        if (!ctx.user?.id || id !== ctx.user.id) return null
-
+      resolve: async (_, { username }, ctx) => {
         return await ctx.prisma.user.create({
           data: { username },
         })
@@ -120,4 +119,4 @@ export const UserMutations = extendType({
   },
 })
 
-export default [User, queries]
+export default [User, queries, mutations]

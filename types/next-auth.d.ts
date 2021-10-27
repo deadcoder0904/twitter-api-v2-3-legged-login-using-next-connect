@@ -1,3 +1,4 @@
+import { User } from 'next-auth'
 import { JWT } from 'next-auth/jwt'
 
 declare module 'next-auth/jwt' {
@@ -13,8 +14,6 @@ declare module 'next-auth/jwt' {
       oauth_token_secret: string
     }
 
-    user: User
-
     /** The user's username. */
     username: string | undefined
   }
@@ -25,10 +24,7 @@ declare module 'next-auth' {
    * The shape of the user object returned in the OAuth providers' `profile` callback,
    * or the second parameter of the `session` callback, when using a database.
    */
-  interface User {
-    /** The user's username. */
-    username: string
-  }
+  interface User {}
   /**
    * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
    */

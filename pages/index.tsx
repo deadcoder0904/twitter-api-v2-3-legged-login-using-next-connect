@@ -1,5 +1,7 @@
 import React from 'react'
 import { GetServerSideProps } from 'next'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import {
   signIn,
   signOut,
@@ -7,7 +9,6 @@ import {
   getProviders,
   ClientSafeProvider,
 } from 'next-auth/react'
-import { useRouter } from 'next/router'
 interface IHomePage {
   providers: Record<string, ClientSafeProvider> | null
 }
@@ -38,12 +39,19 @@ const HomePage = ({ providers }: IHomePage) => {
     setStatuses(results.data)
   }
 
+  const secretPage = (
+    <div style={{ marginTop: 20 }}>
+      <Link href="api/secret">Secret Page</Link>
+    </div>
+  )
+
   if (session && session.data) {
     return (
       <>
         <h1>
-          Welcome to the dashboard, <i>*{session.data.user?.username}*</i>
+          Welcome to the dashboard, <i>*{session.data.username}*</i>
         </h1>
+        {secretPage}
         <div>
           <form onSubmit={handleOnSearchSubmit}>
             <h2>Search</h2>
@@ -79,6 +87,7 @@ const HomePage = ({ providers }: IHomePage) => {
           Login with {provider.name}
         </button>
       ))}
+      {secretPage}
     </>
   )
 }

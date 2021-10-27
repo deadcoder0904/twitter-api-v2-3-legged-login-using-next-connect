@@ -2,8 +2,12 @@
 ### Do not make changes to this file directly
 
 
+type Mutation {
+  createUser(username: String!): User
+}
+
 type Query {
-  currentUser: User
+  currentUser(id: String!): User
 }
 
 type User {

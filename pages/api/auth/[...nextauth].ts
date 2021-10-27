@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import NextAuth, { NextAuthOptions, User } from 'next-auth'
-import { getSession, signIn } from 'next-auth/react'
 import TwitterProvider from 'next-auth/providers/twitter'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { PrismaClient } from '@prisma/client'
@@ -22,12 +21,10 @@ const options: NextAuthOptions = {
     jwt: true,
   },
   callbacks: {
-    async session({ session, token }) {
-      session.user = token.user
-      return session
-    },
-    async jwt({ token, account, user }) {
-      if (user) token.user = { id: user.id, username: user.username }
+    async jwt({ token, account, profile }) {
+      if (profile) {
+        token.username = profile?.screen_name
+      }
       if (account) {
         token[account.provider] = {
           oauth_token: account.oauth_token,
@@ -36,6 +33,10 @@ const options: NextAuthOptions = {
       }
 
       return token
+    },
+    async session({ session, token }) {
+      session.username = token.username
+      return session
     },
   },
   // debug: process.env.NODE_ENV === 'development',

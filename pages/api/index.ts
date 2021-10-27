@@ -1,4 +1,4 @@
-import { NextApiHandler } from 'next'
+import { NextApiHandler, NextApiRequest } from 'next'
 import { ApolloServer } from 'apollo-server-micro'
 import { User } from 'next-auth'
 // import { getSession } from 'next-auth/react'
@@ -17,19 +17,17 @@ export const config = {
 }
 
 export interface GraphQLContext {
-  user?: User
+  // user?: User
+  req: NextApiRequest
   prisma: typeof prisma
   origin: string
 }
 
 const apolloServer = new ApolloServer({
   schema,
-  context: async ({ req }): Promise<GraphQLContext> => {
-    const session = await getToken({ req })
-    const user = session?.user
-    console.log({ user })
+  context: ({ req }): GraphQLContext => {
     return {
-      user,
+      req,
       origin: getRequestOrigin(req),
       prisma,
     }
