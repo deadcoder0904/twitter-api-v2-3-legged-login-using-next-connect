@@ -41,7 +41,7 @@ const HomePage = ({ providers }: IHomePage) => {
 
   const secretPage = (
     <div style={{ marginTop: 20 }}>
-      <Link href="api/secret">Secret Page</Link>
+      <Link href="/api/secret">Secret Page</Link>
     </div>
   )
 

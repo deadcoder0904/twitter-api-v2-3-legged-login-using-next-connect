@@ -3,9 +3,15 @@
     "target": "es5",
     "baseUrl": "node_modules",
     "paths": {
-      "@/*": ["../src/*"]
+      "@/*": [
+        "../src/*"
+      ]
     },
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -16,8 +22,17 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "incremental": true
   },
-  "include": ["next-env.d.ts", "types/**/*.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "cypress"]
+  "include": [
+    "next-env.d.ts",
+    "types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "cypress"
+  ]
 }
