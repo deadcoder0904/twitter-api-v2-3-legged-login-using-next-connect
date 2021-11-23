@@ -15,10 +15,10 @@ const getVerifierToken = async (req: NextIronRequest, res: NextApiResponse) => {
     return
   }
 
-  if (!req.session.get(oauth_token))
+  if (!req.session.get('token'))
     throw new Error("Can't find `oauth_token` in `req.session`")
 
-  const oauthTokenSecret = req.session.get(oauth_token)
+  const oauthTokenSecret = req.session.get('token').oauth_token_secret
 
   if (typeof oauthTokenSecret !== 'string') {
     res
@@ -36,7 +36,12 @@ const getVerifierToken = async (req: NextIronRequest, res: NextApiResponse) => {
       accessSecret: oauthTokenSecret,
     }).login(oauth_verifier)
 
-  req.session.set('token', { accessToken, accessSecret })
+  const { name, screen_name } = await client.currentUser()
+  req.session.set('user', {
+    name,
+    screen_name,
+  })
+  await req.session.save()
 
   res.send(`
 <html>

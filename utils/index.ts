@@ -16,7 +16,7 @@ if (!SESSION_SECRET)
   throw new Error(`Please add SESSION_SECRET to your .env.local file!`)
 
 export const SESSION_CONFIG = {
-  cookieName: 'mysite-session',
+  cookieName: 'mysite-iron-session',
   password: SESSION_SECRET,
   // if your localhost is served on http:// then disable the secure flag
   cookieOptions: {

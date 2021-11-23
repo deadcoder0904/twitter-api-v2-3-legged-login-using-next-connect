@@ -13,7 +13,7 @@ const generateAuthLink = async (req: NextIronRequest, res: NextApiResponse) => {
     appSecret: TWITTER_CONFIG.consumerSecret,
   }).generateAuthLink(`${SERVER_URL}/api/twitter/get-verifier-token`)
 
-  req.session.set(oauth_token, oauth_token_secret)
+  req.session.set('token', { oauth_token, oauth_token_secret })
   await req.session.save()
 
   // redirect to the authentication URL

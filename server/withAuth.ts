@@ -10,15 +10,12 @@ export const getUserFromServerSession = ({
 }) =>
   withIronSession(async ({ req }: { req: NextIronRequest }) => {
     try {
-      const user = req.session.get('user')
-      console.log({ user })
+      const token = req.session.get('token')
 
-      if (!user) throw new Error('Unauthorized user. Please login!')
+      if (!token) throw new Error('Unauthorized user. Please login!')
 
       return {
-        props: {
-          user,
-        },
+        props: {},
       }
     } catch (err) {
       if (redirectToLogin) {

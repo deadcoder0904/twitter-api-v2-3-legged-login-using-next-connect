@@ -1,6 +1,6 @@
 import { Login } from '../components/Login'
 
-export default function HomePage() {
+const HomePage = () => {
   return (
     <>
       <h1>3-legged Twitter Oauth</h1>
@@ -8,3 +8,5 @@ export default function HomePage() {
     </>
   )
 }
+
+export default HomePage
