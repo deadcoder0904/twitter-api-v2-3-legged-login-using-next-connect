@@ -5,9 +5,9 @@ import handler from '../../../server/api-route'
 import { NextIronRequest } from '../../../types/index'
 
 const search = async (req: NextIronRequest, res: NextApiResponse) => {
-  const { query } = JSON.parse(req.body)
-
+  const { query } = req.body
   const token = req.session.get('token')
+  console.log({ query, token, t: !token })
 
   if (!token)
     return res.status(401).json({
@@ -20,7 +20,7 @@ const search = async (req: NextIronRequest, res: NextApiResponse) => {
     accessToken: token.accessToken,
     accessSecret: token.accessSecret,
   })
-
+  console.log({ userClient })
   try {
     const data = await userClient.search(query)
 

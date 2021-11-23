@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 
+import { Search } from '../components/Search'
 import { getUserFromServerSession } from '../server/withAuth'
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
   return (
     <>
       <h1>Welcome {username}, you're logged in</h1>
+      <Search />
       <button onClick={logout}>Logout</button>
     </>
   )
