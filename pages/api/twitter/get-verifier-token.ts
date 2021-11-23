@@ -18,9 +18,9 @@ const getVerifierToken = async (req: NextIronRequest, res: NextApiResponse) => {
   if (!req.session.get('token'))
     throw new Error("Can't find `oauth_token` in `req.session`")
 
-  const oauthTokenSecret = req.session.get('token').oauth_token_secret
+  const oauth_token_secret = req.session.get('token').oauth_token_secret
 
-  if (typeof oauthTokenSecret !== 'string') {
+  if (typeof oauth_token_secret !== 'string') {
     res
       .status(401)
       .send('Oops, it looks like your session has expired.. Try again!')
@@ -33,8 +33,13 @@ const getVerifierToken = async (req: NextIronRequest, res: NextApiResponse) => {
       appKey: TWITTER_CONFIG.consumerKey,
       appSecret: TWITTER_CONFIG.consumerSecret,
       accessToken: oauth_token,
-      accessSecret: oauthTokenSecret,
+      accessSecret: oauth_token_secret,
     }).login(oauth_verifier)
+
+  req.session.set('token', {
+    accessToken,
+    accessSecret,
+  })
 
   const { name, screen_name } = await client.currentUser()
   req.session.set('user', {
