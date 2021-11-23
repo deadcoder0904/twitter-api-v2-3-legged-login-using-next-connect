@@ -6,20 +6,21 @@ interface Twit {
   text: string
 }
 
+type SearchResults = Twit[]
+
 export const Search = () => {
   const [query, setQuery] = useState('')
-  const [statuses, setStatuses] = useState<Twit[]>([])
+  const [statuses, setStatuses] = useState<SearchResults>([])
 
   const handleSearch = async () => {
-    const results = await ky
+    const results: { data: SearchResults } = await ky
       .post('/api/twitter/search', { json: { query } })
       .json()
-    console.log(results)
-    // setStatuses(results.data)
+    setStatuses(results.data)
   }
 
   return (
-    <div>
+    <>
       <h2>Search</h2>
       <input
         type="search"
@@ -38,6 +39,6 @@ export const Search = () => {
           ))}
         </ul>
       )}
-    </div>
+    </>
   )
 }

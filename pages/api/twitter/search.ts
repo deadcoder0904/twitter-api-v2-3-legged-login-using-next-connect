@@ -7,7 +7,6 @@ import { NextIronRequest } from '../../../types/index'
 const search = async (req: NextIronRequest, res: NextApiResponse) => {
   const { query } = req.body
   const token = req.session.get('token')
-  console.log({ query, token, t: !token })
 
   if (!token)
     return res.status(401).json({
@@ -20,7 +19,7 @@ const search = async (req: NextIronRequest, res: NextApiResponse) => {
     accessToken: token.accessToken,
     accessSecret: token.accessSecret,
   })
-  console.log({ userClient })
+
   try {
     const data = await userClient.search(query)
 
@@ -35,4 +34,4 @@ const search = async (req: NextIronRequest, res: NextApiResponse) => {
   }
 }
 
-export default handler().get(search)
+export default handler().post(search)
