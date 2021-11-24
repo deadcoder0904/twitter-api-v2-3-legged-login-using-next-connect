@@ -1,7 +1,8 @@
 import { NextApiResponse } from 'next'
-import nc from 'next-connect'
-import { ironSession } from 'next-iron-session'
 import { error } from 'next/dist/build/output/log'
+import nc from 'next-connect'
+import { ironSession } from 'iron-session/express'
+
 import { NextIronRequest } from '../types/index'
 import { SESSION_CONFIG } from '../utils/index'
 

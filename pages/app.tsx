@@ -21,8 +21,6 @@ const App = () => {
   )
 }
 
-export const getServerSideProps = getUserFromServerSession({
-  redirectToLogin: true,
-})
+export const getServerSideProps = getUserFromServerSession()
 
 export default App

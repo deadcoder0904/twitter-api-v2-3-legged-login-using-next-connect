@@ -36,16 +36,10 @@ const getVerifierToken = async (req: NextIronRequest, res: NextApiResponse) => {
       accessSecret: oauth_token_secret,
     }).login(oauth_verifier)
 
-  req.session.set('token', {
-    accessToken,
-    accessSecret,
-  })
-
   const { name, screen_name } = await client.currentUser()
-  req.session.set('user', {
-    name,
-    screen_name,
-  })
+
+  req.session.token = { accessToken, accessSecret }
+  req.session.user = { name, screen_name }
   await req.session.save()
 
   res.send(`
