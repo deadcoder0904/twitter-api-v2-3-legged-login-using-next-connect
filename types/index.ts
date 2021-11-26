@@ -1,8 +1,8 @@
 import { NextApiRequest } from 'next'
-import { Session } from 'next-iron-session'
+import { IronSession } from 'iron-session'
 
 export type AppSession = {
-  session: Session
+  session: IronSession
 }
 
 export type NextIronRequest = NextApiRequest & AppSession

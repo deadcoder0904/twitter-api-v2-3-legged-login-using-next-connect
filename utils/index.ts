@@ -18,8 +18,4 @@ if (!SESSION_SECRET)
 export const SESSION_CONFIG = {
   cookieName: 'mysite-iron-session',
   password: SESSION_SECRET,
-  // if your localhost is served on http:// then disable the secure flag
-  cookieOptions: {
-    secure: IS_PRODUCTION,
-  },
 }
