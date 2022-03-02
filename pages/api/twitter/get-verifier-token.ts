@@ -2,45 +2,37 @@ import { SERVER_URL } from './../../../utils/index'
 import { NextApiResponse } from 'next'
 import TwitterApi from 'twitter-api-v2'
 
+import { twitterClient } from './client'
 import { TWITTER_CONFIG } from '../../../lib/config'
 import { NextIronRequest } from '../../../types/index'
 import handler from '../../../server/api-route'
 
 const getVerifierToken = async (req: NextIronRequest, res: NextApiResponse) => {
-  // check query params and session data
-  const { oauth_token, oauth_verifier } = req.query
+  const state = req.query.state as string
+  const code = req.query.code as string
+  const { state: storedState, codeVerifier } = req.session.twitter
 
-  if (typeof oauth_token !== 'string' || typeof oauth_verifier !== 'string') {
-    res.status(401).send('Oops, it looks like you refused to log in..')
-    return
+  if (storedState !== state) {
+    return res
+      .status(400)
+      .send(
+        'OAuth token is not known or invalid. Your request may have expired. Please renew the auth process.'
+      )
   }
+  const {
+    client: loggedClient,
+    accessToken,
+    refreshToken,
+    expiresIn,
+  } = await twitterClient.loginWithOAuth2({
+    code,
+    codeVerifier,
+    redirectUri: TWITTER_CONFIG.callbackURL,
+  })
 
-  if (!req.session.get('token'))
-    throw new Error("Can't find `oauth_token` in `req.session`")
-
-  const oauth_token_secret = req.session.get('token').oauth_token_secret
-
-  if (typeof oauth_token_secret !== 'string') {
-    res
-      .status(401)
-      .send('Oops, it looks like your session has expired.. Try again!')
-    return
-  }
-
-  // fetch the token / secret / account infos (from the temporary one)
-  const { client, accessToken, accessSecret, screenName, userId } =
-    await new TwitterApi({
-      appKey: TWITTER_CONFIG.consumerKey,
-      appSecret: TWITTER_CONFIG.consumerSecret,
-      accessToken: oauth_token,
-      accessSecret: oauth_token_secret,
-    }).login(oauth_verifier)
-
-  const { name, screen_name } = await client.currentUser()
-
-  req.session.token = { accessToken, accessSecret }
-  req.session.user = { name, screen_name }
-  await req.session.save()
+  const {
+    data: { id: userId, name, username, profile_image_url },
+  } = await loggedClient.v2.me()
 
   res.send(`
 <html>
@@ -48,7 +40,7 @@ const getVerifierToken = async (req: NextIronRequest, res: NextApiResponse) => {
     <h1>You successfully logged in! closing this window...</h1>
   </body>
   <script>
-    window.opener && window.opener.postMessage({ username: '${screenName}' }, '${SERVER_URL}');
+    window.opener && window.opener.postMessage({ username: '${username}' }, '${SERVER_URL}');
     close();
   </script>
 </html>

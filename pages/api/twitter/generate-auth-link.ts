@@ -1,19 +1,24 @@
 import { NextApiResponse } from 'next'
-import TwitterApi from 'twitter-api-v2'
 
+import { twitterClient } from './client'
 import { TWITTER_CONFIG } from '../../../lib/config'
-import { SERVER_URL } from '../../../utils/index'
 import { NextIronRequest } from '../../../types/index'
 import handler from '../../../server/api-route'
 
 const generateAuthLink = async (req: NextIronRequest, res: NextApiResponse) => {
   // Generate an authentication URL
-  const { url, oauth_token, oauth_token_secret } = await new TwitterApi({
-    appKey: TWITTER_CONFIG.consumerKey,
-    appSecret: TWITTER_CONFIG.consumerSecret,
-  }).generateAuthLink(`${SERVER_URL}/api/twitter/get-verifier-token`)
+  const { state, codeVerifier, url } = twitterClient.generateOAuth2AuthLink(
+    TWITTER_CONFIG.callbackURL,
+    {
+      scope: ['tweet.read', 'offline.access'],
+    }
+  )
 
-  req.session.token = { oauth_token, oauth_token_secret }
+  req.session.twitter = {
+    state,
+    codeVerifier,
+  }
+
   await req.session.save()
 
   // redirect to the authentication URL

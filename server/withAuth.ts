@@ -1,7 +1,9 @@
+import { GetServerSidePropsContext } from 'next'
 import { withIronSessionSsr } from 'iron-session/next'
 
 import { SESSION_CONFIG } from '../utils/index'
 import { NextIronRequest } from '../types/index'
+import { withSessionSsr } from '../lib/withSession'
 
 // export const getUserFromServerSession = ({
 //   redirectToLogin,
@@ -10,9 +12,9 @@ import { NextIronRequest } from '../types/index'
 //   redirectToLogin?: boolean
 //   redirectToApp?: boolean
 // }) =>
-//   withIronSession(async ({ req }: { req: NextIronRequest }) => {
+//   withIronSessionSsr(async ({ req }) => {
 //     try {
-//       const token = req.session.get('token')
+//       const token = req.session.twitter.state
 
 //       if (!token) throw new Error('Unauthorized user. Please login!')
 
@@ -40,11 +42,13 @@ import { NextIronRequest } from '../types/index'
 //       }
 //     }
 //   }, SESSION_CONFIG)
+let i = 0
 export const getUserFromServerSession = () =>
-  withIronSessionSsr(async ({ req }: { req: NextIronRequest }) => {
-    const token = req.session.get('token')
+  withIronSessionSsr(async ({ req }) => {
+    console.log(req.session, i++)
+    const user = req.session.user
 
-    if (!token) {
+    if (!user) {
       return {
         redirect: {
           permanent: false,
@@ -60,3 +64,22 @@ export const getUserFromServerSession = () =>
       }
     }
   }, SESSION_CONFIG)
+
+export const withAuth =
+  (gssp: any) => async (context: GetServerSidePropsContext) => {
+    const { req } = context
+    const user = req.session.user
+
+    if (!user) {
+      return {
+        redirect: {
+          destination: '/',
+          statusCode: 302,
+        },
+      }
+    }
+
+    return await gssp(context)
+  }
+
+export const withAuthSsr = (handler: any) => withSessionSsr(withAuth(handler))

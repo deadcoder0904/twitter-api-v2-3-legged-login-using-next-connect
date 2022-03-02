@@ -1,5 +1,9 @@
+import { withIronSessionSsr } from 'iron-session/next'
+import { GetServerSidePropsContext } from 'next'
+
 import { Login } from '../components/Login'
-import { getUserFromServerSession } from '../server/withAuth'
+import { getUserFromServerSession, withAuthSsr } from '../server/withAuth'
+import { SESSION_CONFIG } from '../utils'
 
 const HomePage = () => {
   return (
@@ -9,9 +13,5 @@ const HomePage = () => {
     </>
   )
 }
-
-export const getServerSideProps = getUserFromServerSession({
-  redirectToApp: true,
-})
 
 export default HomePage
