@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 
 import { Search } from '../components/Search'
-import { getUserFromServerSession } from '../server/withAuth'
+import { withSessionSsr } from '../lib/withSession'
 
 const App = () => {
   const router = useRouter()
@@ -21,6 +21,22 @@ const App = () => {
   )
 }
 
-export const getServerSideProps = getUserFromServerSession()
+export const getServerSideProps = withSessionSsr(async (context) => {
+  const user = context.req.session.user
+
+  if (!user) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+  return {
+    props: {
+      user,
+    },
+  }
+})
 
 export default App
