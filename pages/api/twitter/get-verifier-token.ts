@@ -34,6 +34,8 @@ const getVerifierToken = async (req: NextIronRequest, res: NextApiResponse) => {
     data: { id: userId, name, username, profile_image_url },
   } = await loggedClient.v2.me()
 
+  console.log({ userId, name, username, profile_image_url })
+
   res.send(`
 <html>
   <body>

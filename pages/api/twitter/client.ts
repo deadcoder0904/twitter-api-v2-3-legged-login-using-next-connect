@@ -4,5 +4,5 @@ import { TWITTER_CONFIG } from '../../../lib/config'
 
 export const twitterClient = new TwitterApi({
   clientId: TWITTER_CONFIG.clientId,
-  // clientSecret: TWITTER_CONFIG.clientSecret,
+  clientSecret: TWITTER_CONFIG.clientSecret,
 })

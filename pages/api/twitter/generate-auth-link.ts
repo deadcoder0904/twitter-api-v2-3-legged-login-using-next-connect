@@ -10,7 +10,7 @@ const generateAuthLink = async (req: NextIronRequest, res: NextApiResponse) => {
   const { state, codeVerifier, url } = twitterClient.generateOAuth2AuthLink(
     TWITTER_CONFIG.callbackURL,
     {
-      scope: ['tweet.read', 'offline.access'],
+      scope: ['tweet.read', 'users.read', 'offline.access'],
     }
   )
 
